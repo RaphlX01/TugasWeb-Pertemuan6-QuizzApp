@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kuis Web</title>
+  <script>
+    /* Terapkan tema sebelum render agar tidak berkedip */
+    try {
+      const saved = localStorage.getItem("quiz-app:theme");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.dataset.theme = saved || (prefersDark ? "dark" : "light");
+    } catch { document.documentElement.dataset.theme = "light"; }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Unbounded:wght@600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="app__header">
+      <h1 class="logo">Kuis Web</h1>
+      <button type="button" id="theme-toggle" class="btn btn--small" aria-pressed="false"></button>
+    </header>
+
+    <main>
+      <!-- VIEW 1: Mulai & pilih kategori -->
+      <section id="view-start" class="panel" aria-labelledby="start-title">
+        <h2 id="start-title" class="panel__title">Uji pengetahuan web Anda</h2>
+        <p id="rules" class="muted"></p>
+        <p id="start-high-score" class="high-score"></p>
+        <h3 class="subhead">Pilih kategori</h3>
+        <div id="category-list" class="category-list"></div>
+      </section>
+
+      <!-- VIEW 2: Kuis -->
+      <section id="view-quiz" hidden aria-label="Kuis">
+        <div class="quiz-meta">
+          <p id="progress-label" class="quiz-meta__label"></p>
+          <button type="button" id="quit-btn" class="btn btn--small">Keluar</button>
+        </div>
+        <div id="progress-track" class="bar" role="progressbar" aria-label="Progres soal" aria-valuemin="0" aria-valuemax="100">
+          <div id="progress-fill" class="bar__fill bar__fill--progress"></div>
+        </div>
+
+        <div id="timer" class="timer">
+          <div class="bar bar--thin" aria-hidden="true"><div id="timer-fill" class="bar__fill bar__fill--timer"></div></div>
+          <p id="timer-text" class="timer__text"></p>
+        </div>
+
+        <article id="quiz-card" class="panel quiz-card">
+          <p id="question-category" class="chip"></p>
+          <h2 id="question-text" class="question"></h2>
+          <div id="choices" class="choices" role="group" aria-label="Pilihan jawaban"></div>
+          <p id="feedback" class="feedback" role="status" aria-live="polite"></p>
+          <button type="button" id="next-btn" class="btn btn--primary" hidden></button>
+        </article>
+      </section>
+
+      <!-- VIEW 3: Hasil -->
+      <section id="view-result" class="panel" hidden aria-labelledby="result-title">
+        <h2 id="result-title" class="subhead">Skor Anda</h2>
+        <p id="result-score" class="result-score"></p>
+        <p id="result-message" class="panel__title"></p>
+        <p id="result-badge" class="badge" hidden></p>
+        <ul id="result-stats" class="stats"></ul>
+        <p id="result-high-score" class="high-score"></p>
+        <div class="actions">
+          <button type="button" id="restart-btn" class="btn btn--primary">Restart</button>
+          <button type="button" id="change-category-btn" class="btn">Ganti kategori</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
